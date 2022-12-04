@@ -13,6 +13,7 @@
   <div><input id="rescue-submit" type="button" value="request"></div>
   {{ area_name|json_script:"area-name" }}
   <script type="module">
+    var permission = Notification.requestPermission();
     const areaName = JSON.parse(document.getElementById('area-name').textContent);
     document.querySelector("#rescue-area").textContent = "구조구역" + areaName;
 
@@ -31,9 +32,8 @@
 
     socket.onmessage = function (e) {
       console.log("이벤트가 발생했습니다")
-      console.log(e)
       const data = JSON.parse(e.data)
-      console.log(data)
+      new Notification("익수자 발생", { body: "1번 풀에서 익수 위험자 발생" });
       document.querySelector("#rescue-alarm").textContent = "1번 풀에서 익수 위험자 발생"
       document.querySelector('#rescue-img').src = "{% static 'drowning.jpg' %}"
     };

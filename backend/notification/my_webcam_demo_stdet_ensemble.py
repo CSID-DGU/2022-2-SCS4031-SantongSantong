@@ -15,7 +15,7 @@ import threading
 import time
 from abc import ABCMeta, abstractmethod
 from gtts import gTTS
-import playsound
+# import playsound
 
 import sys
 sys.path.append("/home/irteam/2022-2-SCS4031-SantongSantong/backend")
@@ -112,7 +112,7 @@ def parse_args():
         help="the filename of output video",
     )
     parser.add_argument(
-        "--show", action="store_true", help="Whether to show results with cv2.imshow"
+        "--show", default=True, action="store_true", help="Whether to show results with cv2.imshow"
     )
     parser.add_argument(
         "--display-height",
@@ -661,7 +661,7 @@ class ClipHelper:
         if self.cnt != 0 and self.cnt == 9:  # 딱 한 번만 캡처되게 저장
             # cv2.imwrite("./static/"+str(now)+".jpg", task.frames[self.display_inds[0]])
             cv2.imwrite("/home/irteam/2022-2-SCS4031-SantongSantong/backend/notification/static/drowning.jpg", task.frames[self.display_inds[0]])
-            notification = Notification.objects.create(area_id = 1, pub_date = datetime.datetime.now(), image = "./static/drowning.jpg")
+            # notification = Notification(area_id = 1, pub_date = datetime.datetime.now(), image = "./static/drowning.jpg")
             # notification.save()
             # self.cnt = 0
             self.speak(str(pool_number) + "번! " + str(pool_number) + "번 풀에서 익수 위험자 발생", toslow=False)
@@ -836,7 +836,6 @@ def build_model(args, idx, config, ckpts):
     # return config, stdet_predictor
     return stdet_predictor
 
-
 def main(args):
     # init human detector
     human_detector = MmdetHumanDetector(
@@ -957,7 +956,6 @@ def main(args):
     finally:
         # close read & display thread, release all resources
         clip_helper.clean()
-
 
 if __name__ == "__main__":
     main(parse_args())

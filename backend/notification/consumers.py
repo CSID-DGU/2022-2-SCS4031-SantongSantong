@@ -1,4 +1,6 @@
 import datetime
+import threading
+import time
 from channels.generic.websocket import WebsocketConsumer
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
@@ -18,12 +20,20 @@ django.setup()
 
 from notification.models import Notification
 from notification.serializers import NotificationSerializer
+# from notification.my_webcam_demo_stdet_ensemble import main
 
 def get_notification():
     notifications = Notification.objects.all()
     serializer = NotificationSerializer(notifications, many=True)
     return serializer
 
+def make_notification():
+    notification = Notification(
+        area_id=1,
+        pub_date=datetime.datetime.now(),
+        image="./static/drowning.jpg",
+    )
+    notification.save()
 
 
 @receiver(post_save, sender=Notification)
@@ -51,42 +61,7 @@ class NotificationConsumer(WebsocketConsumer):
         )
 
         self.accept()  # websocket 연결
-
-        #  # notification이 있으면 알람 전송
-        # notifications = get_notification()
-        # if notifications:
-        #     async_to_sync(self.channel_layer.group_send)(
-        #         self.group_name, {
-        #             "type": "notify",
-        #             "data": notifications
-        #         }
-        #    )
-        
-
-    # def notify(self, request):
-    #     # Send message to WebSocket
-    #     # notification = get_notification()
-    #     # if notification:
-    #         # await self.send(data = json.dumps({
-    #         #         "type": "notify",
-    #         #         "data": {
-    #         #             "area_id" : 1,
-    #         #             "pub_date" : datetime.datetime.now(),
-    #         #             "img" : "backend\models\static\00000000.jpg",
-    #         #         }
-    #         #     }))
-    #     request_json = json.loads(request)
-    #     request_message = request_json['message']
-    #     if request_message == "request" :
-    #         # notification이 있으면 알람 전송
-    #         notifications = get_notification()
-    #         if notifications:
-    #             self.send(json.dumps({
-    #                     "type": "notify",
-    #                     "data": notifications
-    #                 }
-    #             ))
-
+        threading.Timer(20, make_notification).start()
 
     def disconnect(self, close_code):
         # Leave group
