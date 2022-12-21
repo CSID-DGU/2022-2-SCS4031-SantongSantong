@@ -5,12 +5,14 @@
 
 
 
-*최종 익수 탐지 모델 시스템 구조도
+ 최종 익수 탐지 모델 시스템 구조도
+ ---
 
-![image](https://user-images.githubusercontent.com/63159699/208854892-3810610e-aad2-47e1-9b29-19eaf5e8ea5a.png)
+![image](https://user-images.githubusercontent.com/63159699/208856359-868f8d47-8265-4480-9c88-f777aaf6a593.png)
 
 
-*탐지 시 웹 애플리케이션 화면
+ 탐지 시 웹 애플리케이션 화면
+ ---
 
 ![image](https://user-images.githubusercontent.com/63159699/208855746-a6a9c6e6-fedd-4dae-aade-50f6d4494e53.png)![image](https://user-images.githubusercontent.com/63159699/208855767-7e8cd019-02dc-4fa8-bf74-b228b8612d31.png)
 
